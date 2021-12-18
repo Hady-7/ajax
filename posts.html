@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Posts</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Posts</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Home</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <br>
+   
+      <div class="container-fluid"> 
+        <div class="form-group row">
+          <label for="Name" class="col-sm-2 col-form-label">ID</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="ID" placeholder="ID">
+          </div>
+      </div>
+      <button type="button" class="btn btn-success" onclick="fetchAll()">Fetch All</button>
+
+      <button type="button" class="btn btn-success" onclick="fetchOne()">Fetch one Post</button>
+      <hr>
+      <table id="CourseData" class="table table-hover">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Body</th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+  </div>
+      </div>
+    <script type="module">
+      
+        window.fetchAll = fetchAll;
+        async function fetchAll(){
+           await fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(json => {
+              console.log(json);
+              $("#CourseData>tbody").empty();
+              json.forEach(element => {
+                var row = `<tr>
+                    <td>${element.id}</td>
+                    <td>${element.body}</td>
+                    <td>${element.title}</td>
+                </tr>`;
+              $("#CourseData>tbody").append(row);
+              });
+            })
+        
+        }
+        
+        window.fetchOne = fetchOne;
+        async function fetchOne(){
+          var ID = $("#ID").val();
+          console.log(ID);
+           await fetch(`https://jsonplaceholder.typicode.com/posts/${ID}`)
+            .then(response => response.json())
+            .then(json => {
+              console.log(json);
+              $("#CourseData>tbody").empty();
+              var row = `<tr>
+                    <td>${json.id}</td>
+                    <td>${json.body}</td>
+                    <td>${json.title}</td>
+                </tr>`;
+              $("#CourseData>tbody").append(row);
+            })
+        
+        }
+
+
+    
+
+    </script>
+</body>
+</html>
